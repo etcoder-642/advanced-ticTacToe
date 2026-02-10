@@ -1,0 +1,21 @@
+.container {
+    margin: auto;
+    width: 256px;
+    height: 256px;
+    border: 2px solid black;
+    display: flex;
+}
+
+.wrapper {
+    border: 1px solid red;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+}
+
+.space {
+    border: 1px solid green;
+    flex: 1;
+}
