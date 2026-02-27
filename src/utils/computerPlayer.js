@@ -1,3 +1,8 @@
+import {checkWin} from './winChecker.js';
+import {checkDraw} from './winChecker.js';
+import {switchPlayer} from './gameState.js';
+import {makeMove} from './gameState.js';
+
 /*
     Function description:
         algorithm that scores the current or the future moves
@@ -11,7 +16,7 @@
         The score of the current status or the score of
         the best move made by the opponent
 */
-function miniMax(board, symbol)
+function miniMax(board, symbol, alpha = -Infinity, beta = -Infinity)
 {
     if (symbol == 0)
     {
@@ -33,20 +38,26 @@ function miniMax(board, symbol)
     } else
     {
     var dim = board.length;
-    var scores = [];
+    var maxScore = -Infinity;
     for (var i = 0; i < dim; i += 1)
     {
         for (var j = 0; j < dim; j += 1)
         {
             if (board[i][j] == 0)
             {
-            var next_player = switchPlayer(symbol);
-            var next_board = makeMove(board, symbol, i * dim + j)
-            scores.push(-1 * miniMax(next_board, next_player));
+                var nextPlayer = switchPlayer(symbol);
+                var nextBoard = makeMove(board, symbol, i * dim + j);
+                var score = -1 * miniMax(nextBoard, nextPlayer, -beta, -alpha);
+                maxScore = Math.max(maxScore, score);
+                alpha = Math.max(alpha, score);
+                if (alpha >= beta)
+                {
+                    return alpha;
+                }
             }
         }
     }
-    return Math.max(...scores);
+    return maxScore;
     }
 }
 
@@ -81,8 +92,11 @@ function getComputerMove(board, symbol)
             {
                 var index = i * dim + j;
                 var nextBoard = makeMove(board, symbol, index);
-                if (miniMax(board, symbol) > maxScore)
+                var nextPlayer = switchPlayer(player);
+                var score = -1 * miniMax(nextBoard, nextPlayer);
+                if (sroce > maxScore)
                 {
+                    maxScore = score;
                     bestMove = index;
                 }
             }
