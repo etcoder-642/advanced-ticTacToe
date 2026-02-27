@@ -16,7 +16,7 @@ import {makeMove} from './gameState.js';
         The score of the current status or the score of
         the best move made by the opponent
 */
-function miniMax(board, symbol, alpha = -Infinity, beta = -Infinity)
+function miniMax(board, symbol, alpha = -Infinity, beta = Infinity)
 {
     if (symbol == 0)
     {
