@@ -9,7 +9,7 @@
         The number associated with the winning player or
         the number zero of the game is not won yet
 */
-function checkWin(board)
+export function checkWin(board)
 {
     for (var i = 0; i < board.length; i += 1)
     {
@@ -45,7 +45,7 @@ function checkWin(board)
         the value true if the game is completed and is in
         draw state, else the value false
 */
-function checkDraw(board)
+export function checkDraw(board)
 {
     for (var i = 0; i < board.length; i += 1)
     {

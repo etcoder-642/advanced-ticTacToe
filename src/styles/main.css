@@ -3,9 +3,9 @@
 :root {
     --gradient-orange: linear-gradient(to right, rgba(210, 105, 30, 1), rgba(220, 20, 60, 1)); 
     --gradient-orange-hover: linear-gradient(to right, rgba(210, 105, 30, 0.8), rgba(220, 20, 60, 0.8)); 
-    --gradient-blue: linear-gradient(to right, rgba(58, 58, 153, 1), rgba(2, 178, 236, 1));
+    --gradient-blue: linear-gradient(to right, rgb(26, 26, 75), rgba(2, 178, 236, 1));
     --gradient-blue-hover: linear-gradient(to right, rgba(58, 58, 153, 0.8), rgba(2, 178, 236, 0.8));
-    --gradient-box: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.05));
+    --gradient-box: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 1));
 }
 
 * {
@@ -25,17 +25,40 @@
     color: white;
     height: 128px;
 }
+
+.head-content {
+    display: flex;
+    margin: auto;
+    margin-top: 32px;
+    width: fit-content;
+}
+
+button, .reset-btn, .head-content * {
+    background: var(--gradient-blue);
+    color: white;
+    padding: 8px 12px;
+    margin: 4px 16px;
+    border-radius: 8px;
+}
+
+.reset-btn {
+    margin: 12px auto;
+}
+
+button:hover, .reset-btn:hover, .head-content *:hover {
+    background: var(--gradient-blue-hover);
+    cursor: pointer;
+}
+
 .container {
     margin: auto;
     margin-top: 32px;
     width: 256px;
     height: 256px;
-    border: 2px solid black;
     display: flex;
 }
 
 .wrapper {
-    border: 1px solid red;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -44,6 +67,57 @@
 }
 
 .space {
-    border: 1px solid green;
+    font-size: 36px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
     flex: 1;
+}
+
+.bottom-section {
+    display: flex;
+    width: 100%;
+}
+
+.message-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    padding: 16px;
+
+    min-width: 300px;
+    min-height: 96px;
+    overflow: auto;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 16px;
+    background: var(--gradient-orange);
+    color: white;
+}
+
+button {
+    padding: 6px 16px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.message-text {
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0; /* Covers entire screen */
+    background: rgba(0, 0, 0, 0.5); /* Dark semi-transparent */
+    backdrop-filter: blur(5px); /* Blurs the background */
 }

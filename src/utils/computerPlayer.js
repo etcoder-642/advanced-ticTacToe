@@ -73,7 +73,7 @@ function miniMax(board, symbol, alpha = -Infinity, beta = Infinity)
     Returns:
         @index: the one dimensional index representation of the computer suggestion(from 0 .. 9)
 */
-function getComputerMove(board, symbol)
+export function getComputerMove(board, symbol)
 {
     var draw_state = checkDraw(board);
     if (draw_state == true)
@@ -92,9 +92,9 @@ function getComputerMove(board, symbol)
             {
                 var index = i * dim + j;
                 var nextBoard = makeMove(board, symbol, index);
-                var nextPlayer = switchPlayer(player);
+                var nextPlayer = switchPlayer(symbol);
                 var score = -1 * miniMax(nextBoard, nextPlayer);
-                if (sroce > maxScore)
+                if (score > maxScore)
                 {
                     maxScore = score;
                     bestMove = index;
