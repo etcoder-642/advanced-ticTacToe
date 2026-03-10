@@ -27,6 +27,13 @@ export const display = (() => {
             space.forEach(element => {
                 element.innerHTML = ''
             })
+        },
+        applyMode: function(bool) {
+            if (bool) {
+                display.humanMode();
+            } else {
+                display.computerMode();
+            }
         }
     }
 })()
