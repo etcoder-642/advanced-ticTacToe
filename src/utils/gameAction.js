@@ -48,7 +48,7 @@ export const gameAction = (() => {
             Returns:
                 It doesn't return anything just performs a move action.
         */
-        executeMove: function (targetElement, playerID) {
+        executeMove: function (targetElement) {
             let player = gameStore.getPlayer();
             let board = gameStore.getBoard();
             let str = targetElement.id;
@@ -64,10 +64,31 @@ export const gameAction = (() => {
             // switches Player (0<->1)
             gameStore.currentPlayer = switchPlayer(gameStore.currentPlayer);
 
-            board = gameAction.updateBoard(board, player, str, playerID);
-            targetElement.innerHTML = player[playerID].symbol;
+            console.log(gameStore.currentPlayer);
+
+            board = gameAction.updateBoard(board, player, str, gameStore.currentPlayer);
+            console.log(player);
+            targetElement.innerHTML = player[gameStore.currentPlayer].symbol;
 
             gameAction.checkWinner(board);
+        },
+        executeMoveCM: function(targetElement) {
+            let masterBoard = gameStore.getMasterBoard();
+            let player = gameStore.getPlayer();
+            let str = targetElement.id;
+
+            let parentElement = targetElement.closest('.miniBoard');
+            let num = parentElement.id;
+            // switches Player (0<->1)
+            gameStore.currentPlayer = switchPlayer(gameStore.currentPlayer);
+
+            console.log(gameStore.currentPlayer, num);
+
+            masterBoard[num].board = gameAction.updateBoard(masterBoard[num].board, player, str, gameStore.currentPlayer);
+            targetElement.innerHTML = player[gameStore.currentPlayer].symbol;
+            console.log(masterBoard);
+            console.log(parentElement, parentElement.id)
+
         }
     }
 })();

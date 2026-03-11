@@ -9,23 +9,34 @@ display.applyMode(true);
 gameStore.setMode(true);
 document.addEventListener('click', (e) => {
     // Conditions: The Board is not Locked(i.e. players are playing), human Mode
-    if (e.target.classList.contains('space') && gameStore.getBoardLocked() == false && gameStore.getMode() === true) {
+    if (e.target.classList.contains('space') && gameStore.getMode() === true) {
+        if (gameStore.getBoardLocked()) return;
+        if (gameStore.getComplexMode()) {
+            // if (gameStore.getCheckInitial()) {
+            //     gameStore.setCheckInitial(false);
+            //     gameStore.createPlayer(); // This fills the internal player array
+            //     gameStore.currentPlayer = 0;
+            // }
+            gameAction.executeMoveCM(e.target);
+            return;
+        }
         if (gameStore.getCheckInitial()) {
             gameStore.setCheckInitial(false);
             gameStore.createGame();   // This fills the internal board array
             gameStore.createPlayer(); // This fills the internal player array
             gameStore.currentPlayer = 0;
         }
-        gameAction.executeMove(e.target, gameStore.currentPlayer)
+        gameAction.executeMove(e.target)
     } // Conditions: Board is not locked, computer Mode
-    else if (e.target.classList.contains('space') && gameStore.getBoardLocked() == false && gameStore.getMode() == false) {
+    else if (e.target.classList.contains('space') && gameStore.getMode() == false) {
+        if (gameStore.getBoardLocked()) return;
         if (gameStore.getCheckInitial()) {
             gameStore.setCheckInitial(false);
             gameStore.createGame();   // This fills the internal board array
             gameStore.createPlayer(); // This fills the internal player array
             gameStore.currentPlayer = 0;
         }
-        gameAction.executeMove(e.target, gameStore.currentPlayer);
+        gameAction.executeMove(e.target);
 
         /*
            Since this is a computerMode the second player is always the computer. 
@@ -43,16 +54,34 @@ document.addEventListener('click', (e) => {
             }
         }
     }// things that happen when the 'human-mode' button is clicked.
+    else if (e.target.classList.contains('complex-mode')) {
+        let sampleBoard = JSON.stringify(document.querySelector(".container").innerHTML);
+        let container = document.querySelector('.container');
+        container.style.width = '540px';
+        container.style.height = '540px';
+        let space = document.querySelectorAll('.space');
+        let sampleSpace = JSON.parse(sampleBoard);
+        space.forEach((element, index) => {
+            element.style.width = '180px';
+            element.style.height = '180px';
+            element.classList.add('miniBoard');
+            element.id = index;
+            element.innerHTML = sampleSpace;
+        });
+        gameStore.createMasterBoard(9);
+        gameStore.createPlayerCM();
+        gameStore.setComplexMode(true);
+    }
     else if (e.target.classList.contains('human-mode')) {
-        if(gameStore.getMode()) return;
+        if (gameStore.getMode()) return;
         gameStore.setMode(true);
         gameStore.setBoardLocked(false);
         display.applyMode(true);
         gameStore.resetGame();
         display.resetGame();
     } // things that happen when the 'computer-mode' button is clicked.
-     else if (e.target.classList.contains('computer-mode')) {
-        if(!gameStore.getMode()) return;
+    else if (e.target.classList.contains('computer-mode')) {
+        if (!gameStore.getMode()) return;
         gameStore.setCheckInitial(true);
         gameStore.setBoardLocked(false);
         display.applyMode(false);
@@ -60,13 +89,13 @@ document.addEventListener('click', (e) => {
         gameStore.resetGame();
         display.resetGame();
     } // things that happen when the 'Reset Game' or 'Restart Game' button are clicked
-     else if (e.target.classList.contains('reset-pop') || e.target.classList.contains('reset-btn')) {
+    else if (e.target.classList.contains('reset-pop') || e.target.classList.contains('reset-btn')) {
         gameStore.setBoardLocked(false);
         gameStore.setCheckInitial(true);
         gameStore.resetGame();
         display.resetGame();
     } // things when the 'See Board' button is clicked
-     else if (e.target.classList.contains('rem-pop')) {
+    else if (e.target.classList.contains('rem-pop')) {
         display.noPopUpMode();
         gameStore.setBoardLocked(true);
     }

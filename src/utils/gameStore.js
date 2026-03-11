@@ -13,8 +13,16 @@ export const gameStore = (() => {
     let mode = false;
     let player = [];
     let board = [];
+    let masterBoard = [];
+    let complexMode = false;
 
     return {
+        getComplexMode: function () {
+            return complexMode;
+        },
+        setComplexMode: function (value) {
+            complexMode = value;
+        },
         getCheckInitial: function () {
             return checkInitial;
         },
@@ -53,6 +61,20 @@ export const gameStore = (() => {
         resetGame: function () {
             board = [];
             player = [];
+        },
+        createMasterBoard: function (num) {
+            for (let i = 0; i < num; i++) {
+               board = createGameState();
+                masterBoard.push({ i, board, winState:0});
+            }
+        },
+        getMasterBoard: function () {
+            return masterBoard;
+        },
+        createPlayerCM: function () {
+            player.push({ name: 'Player1', symbol: '\u2715', winCount: 0});
+            player.push({ name: 'Player2', symbol: '\u25EF', winCount: 0});
+            return player;
         },
         currentPlayer: 2
     }
