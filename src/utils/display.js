@@ -28,12 +28,27 @@ export const display = (() => {
                 element.innerHTML = ''
             })
         },
-        applyMode: function(bool) {
+        applyMode: function (bool) {
             if (bool) {
                 display.humanMode();
             } else {
                 display.computerMode();
             }
+        },
+        handleComplexMode: function () {
+            let sampleBoard = JSON.stringify(document.querySelector(".container").innerHTML);
+            let container = document.querySelector('.container');
+            container.style.width = '540px';
+            container.style.height = '540px';
+            let space = document.querySelectorAll('.space');
+            let sampleSpace = JSON.parse(sampleBoard);
+            space.forEach((element, index) => {
+                element.style.width = '180px';
+                element.style.height = '180px';
+                element.classList.add('miniBoard');
+                element.id = index;
+                element.innerHTML = sampleSpace;
+            });
         }
     }
 })()

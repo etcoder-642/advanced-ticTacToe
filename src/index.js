@@ -55,25 +55,15 @@ document.addEventListener('click', (e) => {
         }
     }// things that happen when the 'human-mode' button is clicked.
     else if (e.target.classList.contains('complex-mode')) {
-        let sampleBoard = JSON.stringify(document.querySelector(".container").innerHTML);
-        let container = document.querySelector('.container');
-        container.style.width = '540px';
-        container.style.height = '540px';
-        let space = document.querySelectorAll('.space');
-        let sampleSpace = JSON.parse(sampleBoard);
-        space.forEach((element, index) => {
-            element.style.width = '180px';
-            element.style.height = '180px';
-            element.classList.add('miniBoard');
-            element.id = index;
-            element.innerHTML = sampleSpace;
-        });
+        if(gameStore.getComplexMode() === true) return;
+        display.handleComplexMode();
         gameStore.createMasterBoard(9);
         gameStore.createPlayerCM();
         gameStore.setComplexMode(true);
     }
     else if (e.target.classList.contains('human-mode')) {
         if (gameStore.getMode()) return;
+        gameStore.setComplexMode(false);
         gameStore.setMode(true);
         gameStore.setBoardLocked(false);
         display.applyMode(true);
@@ -83,6 +73,7 @@ document.addEventListener('click', (e) => {
     else if (e.target.classList.contains('computer-mode')) {
         if (!gameStore.getMode()) return;
         gameStore.setCheckInitial(true);
+        gameStore.setComplexMode(false);
         gameStore.setBoardLocked(false);
         display.applyMode(false);
         gameStore.setMode(false);
