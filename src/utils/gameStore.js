@@ -65,15 +65,15 @@ export const gameStore = (() => {
         createMasterBoard: function (num) {
             for (let i = 0; i < num; i++) {
                board = createGameState();
-                masterBoard.push({ i, board, winState:0});
+                masterBoard.push({ i, board, state:0});
             }
         },
         getMasterBoard: function () {
             return masterBoard;
         },
         createPlayerCM: function () {
-            player.push({ name: 'Player1', symbol: '\u2715', winCount: 0});
-            player.push({ name: 'Player2', symbol: '\u25EF', winCount: 0});
+            player.push({ name: 'Player1', symbol: '\u2715', winCount: 0, id: 1});
+            player.push({ name: 'Player2', symbol: '\u25EF', winCount: 0, id: 2});
             return player;
         },
         currentPlayer: 2

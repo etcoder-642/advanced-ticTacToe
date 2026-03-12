@@ -20,7 +20,9 @@ export const gameAction = (() => {
                the updated board
         */
         updateBoard: function (board, player, str, num) {
-            board[str[0]][str[1]] = player[num].id;
+            let row = parseInt(str[0]);
+            let col = parseInt(str[1]);
+            board[row][col] = player[num].id;
             return board;
         },
         // checks for a win or draw and updates visual elements accordingly.
@@ -35,6 +37,36 @@ export const gameAction = (() => {
                 display.popUpMode('The game ended in a Draw');
                 return 1;
             } else { return 0; }
+        },
+        checkWinnerCM: function (boardObj, masterBoard) {
+            let player = gameStore.getPlayer();
+
+            if (checkWin(boardObj.board) == 1) {
+                player[0].winCount++;
+                boardObj.state = 1;
+            } else if (checkWin(boardObj.board) == 2) {
+                player[1].winCount++;
+                boardObj.state = 1;
+            } else if (checkDraw(boardObj.board)) {
+                boardObj.state = 1;
+            }
+
+            let sumState = 0;
+            for(let i=0;i<masterBoard.length;i++){
+                sumState += masterBoard[i].state;
+                console.log(sumState);
+                console.log(masterBoard[i])
+                if(sumState == 9){
+                    if(player[0].winCount > player[1].winCount){
+                        display.popUpMode('Player1 won the game!');
+                    }else if(player[1].winCount > player[0].winCount){
+                        display.popUpMode('Player2 won the game!');
+                    }else {
+                        display.popUpMode('The game ended in a draw');
+                    }
+                }
+            }
+
         },
         /*
            Function Description:
@@ -78,17 +110,24 @@ export const gameAction = (() => {
             let str = targetElement.id;
 
             let parentElement = targetElement.closest('.miniBoard');
-            let num = parentElement.id;
+            let num = parseInt(parentElement.id);
+            if(masterBoard[num].state != 0) return;
+            // console.log(masterBoard, masterBoard)
+            let currentBoard = masterBoard[num].board;
+
+            if (currentBoard[str[0]][str[1]] != 0) {
+                return;
+            }
+
             // switches Player (0<->1)
             gameStore.currentPlayer = switchPlayer(gameStore.currentPlayer);
+            let pIndex = gameStore.currentPlayer;
 
-            console.log(gameStore.currentPlayer, num);
 
-            masterBoard[num].board = gameAction.updateBoard(masterBoard[num].board, player, str, gameStore.currentPlayer);
-            targetElement.innerHTML = player[gameStore.currentPlayer].symbol;
-            console.log(masterBoard);
-            console.log(parentElement, parentElement.id)
+            masterBoard[num].board = gameAction.updateBoard(currentBoard, player, str, pIndex);
+            targetElement.innerHTML = player[pIndex].symbol;
 
+            gameAction.checkWinnerCM(masterBoard[num], masterBoard)
         }
     }
 })();
