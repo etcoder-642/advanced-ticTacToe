@@ -8,7 +8,7 @@ import { gameAction } from "./utils/gameAction.js";
 display.applyMode(true);
 gameStore.setMode(true);
 document.addEventListener('click', (e) => {
-    // Conditions: The Board is not Locked(i.e. players are playing), human Mode
+    // Conditions: human Mode
     if (e.target.classList.contains('space') && gameStore.getMode() === true) {
         if (gameStore.getBoardLocked()) return;
         if (gameStore.getComplexMode()) {
@@ -53,13 +53,13 @@ document.addEventListener('click', (e) => {
                 setTimeout(() => { sampleSpace.click(); }, 500);
             }
         }
-    }// things that happen when the 'human-mode' button is clicked.
+    }// things that happen when the 'complex-mode' button is clicked.
     else if (e.target.classList.contains('complex-mode')) {
         if(gameStore.getComplexMode() === true) return;
+        gameStore.setComplexMode(true);
         display.handleComplexMode();
         gameStore.createMasterBoard(9);
         gameStore.createPlayerCM();
-        gameStore.setComplexMode(true);
     }
     else if (e.target.classList.contains('human-mode')) {
         if (gameStore.getMode()) return;

@@ -1,5 +1,5 @@
 export const utils = (()=>{
-    const indexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const indexes = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     const values = ['00', '01', '02', '10', '11', '12', '20', '21', '22'];
 
     return {

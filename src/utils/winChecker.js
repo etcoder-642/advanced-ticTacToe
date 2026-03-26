@@ -57,5 +57,5 @@ export function checkDraw(board)
             }
         }
     }
-    return false;
+    return true;
 }
