@@ -112,7 +112,8 @@ export const gameAction = (() => {
             let parentElement = targetElement.closest('.miniBoard');
             let num = parseInt(parentElement.id);
             if(masterBoard[num].state != 0) return;
-            // console.log(masterBoard, masterBoard)
+            console.log(masterBoard, masterBoard[num]);
+            console.log(str, targetElement);
             let currentBoard = masterBoard[num].board;
 
             if (currentBoard[str[0]][str[1]] != 0) {

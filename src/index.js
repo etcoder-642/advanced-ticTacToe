@@ -12,11 +12,6 @@ document.addEventListener('click', (e) => {
     if (e.target.classList.contains('space') && gameStore.getMode() === true) {
         if (gameStore.getBoardLocked()) return;
         if (gameStore.getComplexMode()) {
-            // if (gameStore.getCheckInitial()) {
-            //     gameStore.setCheckInitial(false);
-            //     gameStore.createPlayer(); // This fills the internal player array
-            //     gameStore.currentPlayer = 0;
-            // }
             gameAction.executeMoveCM(e.target);
             return;
         }
@@ -26,6 +21,7 @@ document.addEventListener('click', (e) => {
             gameStore.createPlayer(); // This fills the internal player array
             gameStore.currentPlayer = 0;
         }
+        console.log(e.target);
         gameAction.executeMove(e.target)
     } // Conditions: Board is not locked, computer Mode
     else if (e.target.classList.contains('space') && gameStore.getMode() == false) {
@@ -55,34 +51,54 @@ document.addEventListener('click', (e) => {
         }
     }// things that happen when the 'complex-mode' button is clicked.
     else if (e.target.classList.contains('complex-mode')) {
-        if(gameStore.getComplexMode() === true) return;
-        gameStore.setComplexMode(true);
+        gameStore.switchComplexMode();
+        // if(gameStore.getComplexMode() === true) return;
         display.handleComplexMode();
         gameStore.createMasterBoard(9);
         gameStore.createPlayerCM();
     }
     else if (e.target.classList.contains('human-mode')) {
         if (gameStore.getMode()) return;
-        gameStore.setComplexMode(false);
         gameStore.setMode(true);
         gameStore.setBoardLocked(false);
         display.applyMode(true);
-        gameStore.resetGame();
-        display.resetGame();
+        if (gameStore.getComplexMode()) {
+            gameStore.resetGameCM();
+            display.resetGameCM();
+            gameStore.createMasterBoard(9);
+            gameStore.createPlayerCM();
+            return;
+        } else {
+            gameStore.resetGame();
+            display.resetGame();
+        }
     } // things that happen when the 'computer-mode' button is clicked.
     else if (e.target.classList.contains('computer-mode')) {
         if (!gameStore.getMode()) return;
-        gameStore.setCheckInitial(true);
-        gameStore.setComplexMode(false);
+        gameStore.setMode(false);
         gameStore.setBoardLocked(false);
         display.applyMode(false);
-        gameStore.setMode(false);
-        gameStore.resetGame();
-        display.resetGame();
+        if (gameStore.getComplexMode()) {
+            gameStore.resetGameCM();
+            display.resetGameCM();
+            gameStore.createMasterBoard(9);
+            gameStore.createPlayerCM();
+            return;
+        } else {
+            gameStore.resetGame();
+            display.resetGame();
+        }
     } // things that happen when the 'Reset Game' or 'Restart Game' button are clicked
     else if (e.target.classList.contains('reset-pop') || e.target.classList.contains('reset-btn')) {
         gameStore.setBoardLocked(false);
         gameStore.setCheckInitial(true);
+        if (gameStore.getComplexMode()) {
+            display.resetGameCM();
+            gameStore.resetGameCM();
+            gameStore.createMasterBoard(9);
+            gameStore.createPlayerCM();
+            return;
+        }
         gameStore.resetGame();
         display.resetGame();
     } // things when the 'See Board' button is clicked

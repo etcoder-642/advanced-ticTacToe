@@ -1,3 +1,4 @@
+import { gameStore } from "./gameStore.js";
 export const display = (() => {
     let messageBox = document.querySelector('.message-box');
     let humanMode = document.querySelector('.human-mode');
@@ -28,6 +29,14 @@ export const display = (() => {
                 element.innerHTML = ''
             })
         },
+        resetGameCM: function () {
+            document.querySelector('.overlay').style.display = 'none';
+            messageBox.style.display = 'none';
+            let miniSpace = document.querySelectorAll('.mini-space');
+            miniSpace.forEach(element => {
+                element.innerHTML = '';
+            })
+        },
         applyMode: function (bool) {
             if (bool) {
                 display.humanMode();
@@ -36,19 +45,57 @@ export const display = (() => {
             }
         },
         handleComplexMode: function () {
-            let sampleBoard = JSON.stringify(document.querySelector(".container").innerHTML);
-            let container = document.querySelector('.container');
-            container.style.width = '540px';
-            container.style.height = '540px';
-            let space = document.querySelectorAll('.space');
-            let sampleSpace = JSON.parse(sampleBoard);
-            space.forEach((element, index) => {
-                element.style.width = '180px';
-                element.style.height = '180px';
-                element.classList.add('miniBoard');
-                element.id = index;
-                element.innerHTML = sampleSpace;
-            });
+            if (gameStore.getComplexMode() === false) {
+                document.querySelector('.complex-mode').textContent = 'Complex Mode';
+                if (gameStore.getBoardAltered()) {
+                    gameStore.setBoardAltered(false);
+                } else return;
+                let container = document.querySelector('.container');
+                let space = document.querySelectorAll('.wrapper > .space');
+
+                container.classList.remove('complex');
+                const data = ['00', '01', '02', '10', '11', '12', '20', '21', '22'];
+                space.forEach((element, index) => {
+                    element.classList.remove('miniBoard');
+                    element.innerHTML = '';
+                    element.id = data[index]; 
+                });
+                return;
+            } else {
+                document.querySelector('.complex-mode').textContent = 'Classic Mode';
+                if (!gameStore.getBoardAltered()) {
+                    gameStore.setBoardAltered(true);
+                } else return;
+                const miniBoardTemplate = `
+                    <div class="mini-container">
+                        <div class="mini-wrapper mw1">
+                            <div class="space mini-space" id="00"></div>
+                            <div class="space mini-space" id="01"></div>
+                            <div class="space mini-space" id="02"></div>
+                        </div>
+                        <div class="mini-wrapper mw2">
+                            <div class="space mini-space" id="10"></div>
+                            <div class="space mini-space" id="11"></div>
+                            <div class="space mini-space" id="12"></div>
+                        </div>
+                        <div class="mini-wrapper mw3">
+                            <div class="space mini-space" id="20"></div>
+                            <div class="space mini-space" id="21"></div>
+                            <div class="space mini-space" id="22"></div>
+                        </div>
+                    </div>`
+                    ;
+                let container = document.querySelector('.container');
+                container.classList.add('complex');
+                let space = document.querySelectorAll('.space');
+                space.forEach((element, index) => {
+                    // element.style.width = '180px';
+                    // element.style.height = '180px';
+                    element.classList.add('miniBoard');
+                    element.id = index;
+                    element.innerHTML = miniBoardTemplate;
+                });
+            }
         }
     }
 })()

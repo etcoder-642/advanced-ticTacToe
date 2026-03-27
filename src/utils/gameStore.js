@@ -16,12 +16,23 @@ export const gameStore = (() => {
     let masterBoard = [];
     let complexMode = false;
 
+    let boardAltered = false;
+
     return {
+        getBoardAltered: function () {
+            return boardAltered;
+        },
+        setBoardAltered: function (value) {
+            boardAltered = value;
+        },
         getComplexMode: function () {
             return complexMode;
         },
         setComplexMode: function (value) {
             complexMode = value;
+        },
+        switchComplexMode: function () {
+            complexMode = !complexMode;
         },
         getCheckInitial: function () {
             return checkInitial;
@@ -61,6 +72,11 @@ export const gameStore = (() => {
         resetGame: function () {
             board = [];
             player = [];
+        },
+        resetGameCM: function () {
+            board = [];
+            player = [];
+            masterBoard = [];
         },
         createMasterBoard: function (num) {
             for (let i = 0; i < num; i++) {

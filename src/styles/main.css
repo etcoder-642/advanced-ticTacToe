@@ -77,11 +77,27 @@ button:hover,
 }
 
 .container {
+    transition: all 0.2s ease;
     margin: auto;
     margin-top: 32px;
     width: 288px;
     height: 288px;
     display: flex;
+}
+
+.space {
+    width: 96px;
+    height: 96px;
+}
+
+.container.complex {
+    width: 540px;
+    height: 540px;
+}
+
+.container.complex .space {
+    width: 180px;
+    height: 180px;
 }
 
 .wrapper {
@@ -100,6 +116,32 @@ button:hover,
     justify-content: center;
     border: 1px solid black;
     flex: 1;
+}
+
+/* Styles for the nested board */
+.mini-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.mini-wrapper {
+    display: flex;
+    flex: 1; /* Each row takes 1/3 height */
+}
+
+.mini-space {
+    flex: 1; /* Each cell takes 1/3 width */
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Fainter lines for the mini board */
+    box-sizing: border-box;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Optional: Hover effect for mini-cells */
+.mini-space:hover {
+    background-color: rgba(0, 0, 255, 0.05);
 }
 
 .bottom-section {
