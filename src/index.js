@@ -69,6 +69,7 @@ document.addEventListener('click', (e) => {
             gameStore.createPlayerCM();
             return;
         } else {
+            gameStore.setCheckInitial(true);
             gameStore.resetGame();
             display.resetGame();
         }
@@ -85,6 +86,7 @@ document.addEventListener('click', (e) => {
             gameStore.createPlayerCM();
             return;
         } else {
+            gameStore.setCheckInitial(true);
             gameStore.resetGame();
             display.resetGame();
         }
